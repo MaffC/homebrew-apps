@@ -4,6 +4,8 @@ class Kbrightnessutil < Formula
   sha256 "3738576610ec23520fa7148b842c9632eab763d69fd8a3a54f8cc87ea6e3d370"
   head "https://github.com/MaffC/kbrightnessutil-osx.git"
 
+  depends_on "cmake" => :build
+
   def install
     bin.mkpath
     system "make", "install", "PREFIX=#{prefix}"
