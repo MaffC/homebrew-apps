@@ -10,10 +10,6 @@ class Kbrightnessutil < Formula
   end
 
   test do
-    system "true"
-  end
-
-  def caveats
-    "kbbutil will need to be run via sudo, as it requires root permissions to access the keyboard light device."
+    system "kbbutil", "-n"
   end
 end
