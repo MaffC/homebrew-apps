@@ -6,7 +6,7 @@ class Kbrightnessutil < Formula
 
   def install
     bin.mkpath
-    system "make", "install", "prefix=#{prefix}"
+    system "make", "install", "PREFIX=#{prefix}"
   end
 
   test do
