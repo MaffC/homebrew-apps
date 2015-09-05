@@ -34,11 +34,6 @@ class Ayudantelobo < Formula
     "You'll need to copy #{share}/sample.ayudante-loborc to ~/.ayudante-loborc and then edit it to your needs before loading the launchd agent. The agent is designed such that if ayudante-lobo encounters an error, it will be silently restarted and the error will be logged to wherever you've configured it to log errors to."
   end
 
-#        <key>EnvironmentVariables</key>
-#        <dict>
-#          <key>PERL5LIB</key>
-#          <string>#{lib}:#{lib}/perl5:#{lib}/perl5/darwin-thread-multi-2level</string>
-#        </dict>
   def plist; <<-EOS.undent
     <?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -50,6 +45,11 @@ class Ayudantelobo < Formula
         <true/>
         <key>RunAtLoad</key>
         <true/>
+        <key>EnvironmentVariables</key>
+        <dict>
+          <key>PERL5LIB</key>
+          <string>/usr/local/lib:/usr/local/lib/perl5:/usr/local/lib/perl5/darwin-thread-multi-2level</string>
+        </dict>
         <key>Program</key>
         <string>#{bin}/ayudante-lobo</string>
       </dict>
