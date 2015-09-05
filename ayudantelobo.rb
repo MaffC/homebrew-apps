@@ -20,8 +20,9 @@ class Ayudantelobo < Formula
   system "cpanm", *cpanm_args,
     "Mac::Pasteboard", "POE::Component::DirWatch::WithCaller",
     "Try::Tiny", "Unix::PID", "YAML"
-  cpanm_args << ["--configure-args","gcrypt"] if MacOS.version > :yosemite
-  system "cpanm", *cpanm_args,
+  cpanm_ext = []
+  cpanm_ext = ["--configure-args","gcrypt"] if MacOS.version > :yosemite
+  system "cpanm", *cpanm_args, *cpanm_ext
     "Net::SSH2"
   end
 
