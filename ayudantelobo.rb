@@ -1,19 +1,13 @@
 class Ayudantelobo < Formula
   homepage "https://github.com/MaffC/ayudante-lobo"
-  url "https://github.com/MaffC/ayudante-lobo/archive/v0.10.tar.gz"
-  sha256 "e80ad2a4fbd1f8b3abdb5ac47d855fa1cec01b8e6ef127a7e833a2088019e066"
+  url "https://github.com/MaffC/ayudante-lobo/archive/v0.7.tar.gz"
+  sha256 "fe9dbf371c7923acb355723fa3af099c9a34cbf5ec4734dd3cb74ec0af6dbb6e"
   head "https://github.com/MaffC/ayudante-lobo.git"
 
   depends_on "cpanminus"
-  depends_on "libssh2"
-#  depends_on "Mac::Pasteboard" => :perl
-#  depends_on "Net::SSH2" => :perl
-#  depends_on "POE" => :perl
-#  depends_on "POE::Component::DirWatch::WithCaller" => :perl
-#  depends_on "Speech::Synthesis" => :perl
-#  depends_on "Try::Tiny" => :perl
-#  depends_on "Unix::PID" => :perl
-#  depends_on "YAML" => :perl
+  depends_on "libssh2" if MacOS.version <= :yosemite
+  depends_on "libssh2" => "with-libressl" if MacOS.version > :yosemite
+  depends_on "libgcrypt" if MacOS.version > :yosemite
 
   def install
   bin.mkpath
@@ -22,10 +16,13 @@ class Ayudantelobo < Formula
   bin.install "ayudante-lobo"
   share.install "sample.ayudante-loborc"
   prefix.install_metafiles
-  system "cpanm",
-    "-q", "--exclude-vendor", "-l", "#{prefix}", "Mac::Pasteboard",
-    "Net::SSH2", "POE::Component::DirWatch::WithCaller",
-    "Speech::Synthesis", "Try::Tiny", "Unix::PID", "YAML"
+  cpanm_args = ["-q","--exclude-vendor","-l","#{prefix}"]
+  system "cpanm", *cpanm_args,
+    "Mac::Pasteboard", "POE::Component::DirWatch::WithCaller",
+    "Try::Tiny", "Unix::PID", "YAML"
+  cpanm_args << ["--configure-args","gcrypt"] if MacOS.version > :yosemite
+  system "cpanm", *cpanm_args,
+    "Net::SSH2"
   end
 
   test do
